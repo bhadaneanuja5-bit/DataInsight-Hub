@@ -1,0 +1,112 @@
+{% load static %}
+
+<!DOCTYPE html>
+<html>
+
+<head>
+
+    <title>Upload Dataset - DataInsight Hub</title>
+
+    <link
+        rel="stylesheet"
+        href="{% static 'analytics/style.css' %}"
+    >
+
+    <style>
+
+        .upload-container textarea {
+            width: 80%;
+            padding: 12px;
+            margin-bottom: 20px;
+            border-radius: 8px;
+            border: 1px solid #ddd;
+            font-family: Arial, sans-serif;
+            font-size: 15px;
+            resize: vertical;
+        }
+
+        .upload-container textarea:focus {
+            outline: none;
+            border-color: #2563eb;
+        }
+
+    </style>
+
+</head>
+
+
+<body>
+
+
+    <div class="upload-container">
+
+
+        <h1>
+            Upload Your Dataset 📊
+        </h1>
+
+
+        <p>
+            Upload a CSV file and add a short description
+            to help identify your dataset.
+        </p>
+
+
+        <form
+            method="POST"
+            enctype="multipart/form-data"
+        >
+
+            {% csrf_token %}
+
+
+            <!-- DATASET DESCRIPTION -->
+
+            <textarea
+                name="description"
+                placeholder="Enter a short description of your dataset..."
+                rows="4"
+            ></textarea>
+
+
+            <br>
+
+
+            <!-- CSV FILE -->
+
+            <input
+                type="file"
+                name="dataset"
+                accept=".csv"
+                required
+            >
+
+
+            <br><br>
+
+
+            <!-- UPLOAD BUTTON -->
+
+            <button type="submit">
+                Upload Dataset
+            </button>
+
+
+        </form>
+
+
+        {% if message %}
+
+            <p>
+                {{ message }}
+            </p>
+
+        {% endif %}
+
+
+    </div>
+
+
+</body>
+
+</html>

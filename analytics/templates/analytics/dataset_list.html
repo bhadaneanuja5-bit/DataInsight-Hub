@@ -1,0 +1,229 @@
+{% load static %}
+
+<!DOCTYPE html>
+<html>
+
+<head>
+
+    <title>My Datasets - DataInsight Hub</title>
+
+    <link
+        rel="stylesheet"
+        href="{% static 'analytics/style.css' %}"
+    >
+
+    <style>
+
+        body {
+            font-family: Arial, sans-serif;
+            background: #f4f7fb;
+            margin: 0;
+        }
+
+        .container {
+            width: 90%;
+            max-width: 1100px;
+            margin: 50px auto;
+        }
+
+        .header {
+            background: white;
+            padding: 30px;
+            border-radius: 15px;
+            box-shadow: 0 5px 20px rgba(0,0,0,0.08);
+            margin-bottom: 25px;
+        }
+
+        .header h1 {
+            margin-top: 0;
+        }
+
+        .header p {
+            color: #666;
+        }
+
+        .upload-button {
+            display: inline-block;
+            margin-top: 10px;
+            padding: 11px 20px;
+            background: #2563eb;
+            color: white;
+            text-decoration: none;
+            border-radius: 8px;
+        }
+
+        .upload-button:hover {
+            background: #1d4ed8;
+        }
+
+        .dataset-card {
+            background: white;
+            padding: 22px;
+            border-radius: 12px;
+            margin-bottom: 15px;
+
+            box-shadow:
+                0 4px 15px
+                rgba(0,0,0,0.07);
+
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            gap: 20px;
+        }
+
+        .dataset-info h3 {
+            margin-top: 0;
+            margin-bottom: 8px;
+        }
+
+        .dataset-info p {
+            color: #666;
+            margin: 5px 0;
+        }
+
+        .analyze-button {
+            padding: 10px 18px;
+            background: #16a34a;
+            color: white;
+            text-decoration: none;
+            border-radius: 8px;
+            white-space: nowrap;
+        }
+
+        .analyze-button:hover {
+            background: #15803d;
+        }
+
+        .empty-message {
+            background: white;
+            padding: 40px;
+            text-align: center;
+            border-radius: 12px;
+            color: #666;
+        }
+
+        @media (max-width: 700px) {
+
+            .dataset-card {
+                flex-direction: column;
+                align-items: flex-start;
+            }
+
+        }
+
+    </style>
+
+</head>
+
+
+<body>
+
+
+<div class="container">
+
+
+    <!-- HEADER -->
+
+    <div class="header">
+
+        <h1>
+            📂 My Datasets
+        </h1>
+
+        <p>
+            View and analyze all datasets uploaded
+            to DataInsight Hub.
+        </p>
+
+        <a
+            href="{% url 'upload_dataset' %}"
+            class="upload-button"
+        >
+            + Upload New Dataset
+        </a>
+
+    </div>
+
+
+    <!-- DATASETS -->
+
+    {% for dataset in datasets %}
+
+        <div class="dataset-card">
+
+
+            <div class="dataset-info">
+
+                <h3>
+                    📊 {{ dataset.name }}
+                </h3>
+
+
+                {% if dataset.description %}
+
+                    <p>
+                        {{ dataset.description }}
+                    </p>
+
+                {% else %}
+
+                    <p>
+                        No description provided.
+                    </p>
+
+                {% endif %}
+
+
+                <p>
+                    Uploaded:
+                    {{ dataset.uploaded_at|date:"d M Y, h:i A" }}
+                </p>
+
+            </div>
+
+
+            <a
+                href="{% url 'dataset_analysis' dataset.id %}"
+                class="analyze-button"
+            >
+                Analyze Dataset →
+            </a>
+
+
+        </div>
+
+
+    {% empty %}
+
+
+        <div class="empty-message">
+
+            <h2>
+                No datasets yet 📂
+            </h2>
+
+            <p>
+                Upload your first CSV dataset
+                to start analyzing it.
+            </p>
+
+            <a
+                href="{% url 'upload_dataset' %}"
+                class="upload-button"
+            >
+                Upload Dataset
+            </a>
+
+        </div>
+
+
+    {% endfor %}
+
+
+</div>
+
+
+</body>
+
+</html>

@@ -1,0 +1,152 @@
+{% load static %}
+
+<!DOCTYPE html>
+<html>
+
+<head>
+
+    <title>Register - DataInsight Hub</title>
+
+    <link
+        rel="stylesheet"
+        href="{% static 'analytics/style.css' %}"
+    >
+
+    <style>
+
+        body {
+            font-family: Arial, sans-serif;
+            background: #f4f7fb;
+            margin: 0;
+        }
+
+        .auth-container {
+            width: 90%;
+            max-width: 450px;
+            margin: 80px auto;
+            background: white;
+            padding: 40px;
+            border-radius: 15px;
+            box-shadow: 0 5px 25px rgba(0,0,0,0.08);
+            text-align: center;
+        }
+
+        .auth-container h1 {
+            margin-bottom: 10px;
+        }
+
+        .auth-container p {
+            color: #666;
+            line-height: 1.5;
+        }
+
+        .auth-container input {
+            width: 90%;
+            padding: 13px;
+            margin: 8px 0;
+            border: 1px solid #ddd;
+            border-radius: 8px;
+            font-size: 15px;
+        }
+
+        .auth-container input:focus {
+            outline: none;
+            border-color: #2563eb;
+        }
+
+        .auth-container button {
+            width: 96%;
+            padding: 13px;
+            margin-top: 15px;
+            border: none;
+            border-radius: 8px;
+            background: #2563eb;
+            color: white;
+            font-size: 16px;
+            font-weight: bold;
+            cursor: pointer;
+        }
+
+        .auth-container button:hover {
+            background: #1d4ed8;
+        }
+
+        .error-message {
+            color: #dc2626;
+            margin-top: 15px;
+        }
+
+        .auth-container a {
+            color: #2563eb;
+            text-decoration: none;
+            font-weight: bold;
+        }
+
+    </style>
+
+</head>
+
+<body>
+
+    <div class="auth-container">
+
+        <h1>
+            Create Account 👤
+        </h1>
+
+        <p>
+            Register to start using DataInsight Hub.
+        </p>
+
+        <form method="POST">
+
+            {% csrf_token %}
+
+            <input
+                type="text"
+                name="username"
+                placeholder="Enter username"
+                required
+            >
+
+            <input
+                type="password"
+                name="password"
+                placeholder="Enter password"
+                required
+            >
+
+            <input
+                type="password"
+                name="confirm_password"
+                placeholder="Confirm password"
+                required
+            >
+
+            <button type="submit">
+                Register
+            </button>
+
+        </form>
+
+        {% if message %}
+
+            <p class="error-message">
+                {{ message }}
+            </p>
+
+        {% endif %}
+
+        <p>
+            Already have an account?
+
+            <a href="{% url 'login' %}">
+                Login
+            </a>
+        </p>
+
+    </div>
+
+</body>
+
+</html>
