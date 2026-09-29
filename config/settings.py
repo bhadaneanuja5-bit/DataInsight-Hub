@@ -9,16 +9,16 @@ import os
 import dj_database_url
 
 
-# ---------------------------------------------------------
+# =========================================================
 # BASE DIRECTORY
-# ---------------------------------------------------------
+# =========================================================
 
 BASE_DIR = Path(__file__).resolve().parent.parent
 
 
-# ---------------------------------------------------------
+# =========================================================
 # SECURITY
-# ---------------------------------------------------------
+# =========================================================
 
 SECRET_KEY = os.environ.get(
     "SECRET_KEY",
@@ -28,24 +28,26 @@ SECRET_KEY = os.environ.get(
 DEBUG = os.environ.get("DEBUG", "True") == "True"
 
 
-# ---------------------------------------------------------
+# =========================================================
 # ALLOWED HOSTS
-# ---------------------------------------------------------
+# =========================================================
 
 ALLOWED_HOSTS = [
     "127.0.0.1",
     "localhost",
 ]
 
-RENDER_EXTERNAL_HOSTNAME = os.environ.get("RENDER_EXTERNAL_HOSTNAME")
+RENDER_EXTERNAL_HOSTNAME = os.environ.get(
+    "RENDER_EXTERNAL_HOSTNAME"
+)
 
 if RENDER_EXTERNAL_HOSTNAME:
     ALLOWED_HOSTS.append(RENDER_EXTERNAL_HOSTNAME)
 
 
-# ---------------------------------------------------------
+# =========================================================
 # APPLICATIONS
-# ---------------------------------------------------------
+# =========================================================
 
 INSTALLED_APPS = [
     "django.contrib.admin",
@@ -59,14 +61,14 @@ INSTALLED_APPS = [
 ]
 
 
-# ---------------------------------------------------------
+# =========================================================
 # MIDDLEWARE
-# ---------------------------------------------------------
+# =========================================================
 
 MIDDLEWARE = [
     "django.middleware.security.SecurityMiddleware",
 
-    # WhiteNoise for serving static files on Render
+    # WhiteNoise for static files on Render
     "whitenoise.middleware.WhiteNoiseMiddleware",
 
     "django.contrib.sessions.middleware.SessionMiddleware",
@@ -78,16 +80,16 @@ MIDDLEWARE = [
 ]
 
 
-# ---------------------------------------------------------
+# =========================================================
 # URL CONFIGURATION
-# ---------------------------------------------------------
+# =========================================================
 
 ROOT_URLCONF = "config.urls"
 
 
-# ---------------------------------------------------------
+# =========================================================
 # TEMPLATES
-# ---------------------------------------------------------
+# =========================================================
 
 TEMPLATES = [
     {
@@ -105,20 +107,21 @@ TEMPLATES = [
 ]
 
 
-# ---------------------------------------------------------
+# =========================================================
 # WSGI
-# ---------------------------------------------------------
+# =========================================================
 
 WSGI_APPLICATION = "config.wsgi.application"
 
 
-# ---------------------------------------------------------
+# =========================================================
 # DATABASE
-# ---------------------------------------------------------
+# =========================================================
 
 DATABASE_URL = os.environ.get("DATABASE_URL")
 
 if DATABASE_URL:
+
     DATABASES = {
         "default": dj_database_url.parse(
             DATABASE_URL,
@@ -126,7 +129,10 @@ if DATABASE_URL:
             ssl_require=True,
         )
     }
+
 else:
+
+    # Local development database
     DATABASES = {
         "default": {
             "ENGINE": "django.db.backends.sqlite3",
@@ -135,29 +141,41 @@ else:
     }
 
 
-# ---------------------------------------------------------
+# =========================================================
 # PASSWORD VALIDATION
-# ---------------------------------------------------------
+# =========================================================
 
 AUTH_PASSWORD_VALIDATORS = [
     {
-        "NAME": "django.contrib.auth.password_validation.UserAttributeSimilarityValidator",
+        "NAME": (
+            "django.contrib.auth.password_validation."
+            "UserAttributeSimilarityValidator"
+        ),
     },
     {
-        "NAME": "django.contrib.auth.password_validation.MinimumLengthValidator",
+        "NAME": (
+            "django.contrib.auth.password_validation."
+            "MinimumLengthValidator"
+        ),
     },
     {
-        "NAME": "django.contrib.auth.password_validation.CommonPasswordValidator",
+        "NAME": (
+            "django.contrib.auth.password_validation."
+            "CommonPasswordValidator"
+        ),
     },
     {
-        "NAME": "django.contrib.auth.password_validation.NumericPasswordValidator",
+        "NAME": (
+            "django.contrib.auth.password_validation."
+            "NumericPasswordValidator"
+        ),
     },
 ]
 
 
-# ---------------------------------------------------------
+# =========================================================
 # INTERNATIONALIZATION
-# ---------------------------------------------------------
+# =========================================================
 
 LANGUAGE_CODE = "en-us"
 
@@ -168,9 +186,9 @@ USE_I18N = True
 USE_TZ = True
 
 
-# ---------------------------------------------------------
+# =========================================================
 # STATIC FILES
-# ---------------------------------------------------------
+# =========================================================
 
 STATIC_URL = "/static/"
 
@@ -180,42 +198,51 @@ STORAGES = {
     "default": {
         "BACKEND": "django.core.files.storage.FileSystemStorage",
     },
+
     "staticfiles": {
-        "BACKEND": "whitenoise.storage.CompressedManifestStaticFilesStorage",
+        "BACKEND": (
+            "whitenoise.storage."
+            "CompressedManifestStaticFilesStorage"
+        ),
     },
 }
 
 
-# ---------------------------------------------------------
+# =========================================================
 # MEDIA FILES
-# ---------------------------------------------------------
+# =========================================================
 
 MEDIA_URL = "/media/"
 
 MEDIA_ROOT = BASE_DIR / "media"
 
 
-# ---------------------------------------------------------
+# =========================================================
 # CSRF
-# ---------------------------------------------------------
+# =========================================================
 
 if RENDER_EXTERNAL_HOSTNAME:
+
     CSRF_TRUSTED_ORIGINS = [
         f"https://{RENDER_EXTERNAL_HOSTNAME}"
     ]
+
 else:
+
     CSRF_TRUSTED_ORIGINS = []
 
 
-# ---------------------------------------------------------
+# =========================================================
 # DEFAULT PRIMARY KEY
-# ---------------------------------------------------------
+# =========================================================
 
 DEFAULT_AUTO_FIELD = "django.db.models.BigAutoField"
 
 
-# ---------------------------------------------------------
+# =========================================================
 # EMAIL
-# ---------------------------------------------------------
+# =========================================================
 
-EMAIL_BACKEND = "django.core.mail.backends.console.EmailBackend"
+EMAIL_BACKEND = (
+    "django.core.mail.backends.console.EmailBackend"
+)
